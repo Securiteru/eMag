@@ -81,8 +81,8 @@ class AccessLogController extends AbstractApiController
             $accessLogs = $this->getDoctrine()
                 ->getRepository(AccessLog::class)
                 ->findByLinkIdWithTimeStamps($linkId, $startTime, $endTime);
-            
-             return $this->respond($this->accessLogTransformer->transformCollection($accessLogs));          
+
+            return $this->respond($this->accessLogTransformer->transformCollection($accessLogs));
         }
 
         $accessLogs = $this->getDoctrine()
@@ -99,6 +99,8 @@ class AccessLogController extends AbstractApiController
     public function getUrlByType(Request $request): Response
     {
         $url_type = $request->get('link_type');
+        $startTime = $request->get('start_time');
+        $endTime = $request->get('end_time');
         $count_mode = $request->get('count', false);
 
         if (!$url_type) {
@@ -108,14 +110,14 @@ class AccessLogController extends AbstractApiController
         if ($count_mode) {
             $accessLogs = $this->getDoctrine()
                 ->getRepository(AccessLog::class)
-                ->findByLinkTypeCount();
+                ->findByLinkTypeCount($startTime,$endTime);
 
             return $this->respond($accessLogs);
         }
 
         $accessLogs = $this->getDoctrine()
-                ->getRepository(AccessLog::class)
-                ->findByLinkType($url_type);
+            ->getRepository(AccessLog::class)
+            ->findByLinkType($url_type,$startTime,$endTime);
 
         return $this->respond($this->accessLogTransformer->transformCollection($accessLogs));
     }

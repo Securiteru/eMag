@@ -102,13 +102,23 @@ class AccessLogRepository extends ServiceEntityRepository
      * @param $url_type
      * @return int|mixed|string
      */
-    public function findByLinkType($url_type)
+    public function findByLinkType($url_type,$startTime, $endTime)
     {
         return $this->createQueryBuilder('accesslog')
             ->orderBy('accesslog.timestamp', 'DESC')
             ->leftJoin('accesslog.url', "url")
-            ->where('url.link_type = :url_type')
-            ->setParameter('url_type', $url_type)
+            ->andWhere('accesslog.timestamp >= :startTime')
+            ->andWhere('url.link_type = :url_type')
+            ->andWhere('accesslog.timestamp <= :endTime')
+            ->setParameters(
+                new ArrayCollection(
+                    array(
+                        new Parameter('url_type', $url_type),
+                        new Parameter('startTime', $startTime),
+                        new Parameter('endTime', $endTime),
+                    )
+                )
+            )
             ->getQuery()
             ->getResult();
     }
@@ -119,13 +129,22 @@ class AccessLogRepository extends ServiceEntityRepository
      *
      * @return int|mixed|string
      */
-    public function findByLinkTypeCount()
+    public function findByLinkTypeCount($startTime,$endTime)
     {
         return $this->createQueryBuilder('accesslog')
             ->leftJoin('accesslog.url', "url")
             ->groupBy('url.link_type')
             ->select('count(accesslog.id) as count, url.link_type')
-            ->getQuery()
+            ->andWhere('accesslog.timestamp >= :startTime')
+            ->andWhere('accesslog.timestamp <= :endTime')
+            ->setParameters(
+                new ArrayCollection(
+                    array(
+                        new Parameter('startTime', $startTime),
+                        new Parameter('endTime', $endTime),
+                    )
+                )
+            )->getQuery()
             ->getResult();
     }
 
