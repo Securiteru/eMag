@@ -1,0 +1,30 @@
+### Create Customer1
+POST http://127.0.0.1:8080/api/accesslog
+Content-Type: application/json
+
+{
+  "email": "customer1@emailprovider.com"
+}
+
+### Get all customers
+GET http://127.0.0.1:8080/api/customers
+Accept: application/json
+
+### GET customer route (based on customer id)
+GET http://127.0.0.1:8080/api/customer/route/1
+Accept: application/json
+
+### GET customers with identical route (based on customer id)
+GET http://127.0.0.1:8080/api/customer/route/comparable/1
+Accept: application/json
+
+### GET customer route (based on customer id)
+GET http://127.0.0.1:8080/api/customer/route/1
+Accept: application/json
+
+### GET customers with identical route (based on customer id)
+GET http://127.0.0.1:8080/api/customer/route/comparable/1
+Accept: application/json
+
+
+

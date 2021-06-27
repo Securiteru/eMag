@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  postgres:
+    image: 'postgres:12.4-alpine'
+    restart: on-failure
+    environment:
+      POSTGRES_DB: emag
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: userpass
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - 'db-data:/var/lib/postgresql/data:rw'
+    ports:
+      - '5432:5432'
+  php:
+    build:
+      context: .
+      target: php
+    image: 'sf-docker/php:dev'
+    restart: on-failure
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      PHP_DATE_TIMEZONE: '${PHP_DATE_TIMEZONE:-UTC}'
+      PHP_IDE_CONFIG: serverName=localhost
+    depends_on:
+      - postgres
+    volumes:
+      - '.:/app:rw,cached'
+      - './var:/app/var'
+  nginx:
+    build:
+      context: .
+      target: nginx
+    image: 'sf-docker/nginx:dev'
+    restart: on-failure
+    depends_on:
+      - php
+    volumes:
+      - './public:/app/public:ro'
+    ports:
+      - '8080:80'
+volumes:
+  db-data: null
+  var: null

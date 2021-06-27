@@ -1,0 +1,22 @@
+### Create Url1
+POST http://127.0.0.1:8080/api/urls
+Content-Type: application/json
+
+{
+  "link":"http://www.emag.ro",
+  "link_type":"homepage"
+}
+
+### Create Url2
+POST http://127.0.0.1:8080/api/urls
+Content-Type: application/json
+
+{
+  "link":"http://www.emag.ro/household_items",
+  "link_type":"category"
+}
+
+
+### GET request with a header
+GET http://127.0.0.1:8080/api/urls
+Accept: application/json

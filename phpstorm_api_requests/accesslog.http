@@ -1,0 +1,84 @@
+### Get all access logs
+GET http://127.0.0.1:8080/api/accesslog
+Accept: application/json
+
+### Create access log by using customer_id, url_id and a timestamp (YYYY-MM-DD hh:mm:ss)
+POST http://127.0.0.1:8080/api/accesslog
+Content-Type: application/json
+
+{
+  "customer": 1,
+  "url": 1,
+  "timestamp":"2021-01-01 04:00:00"
+}
+
+### Create access log by using customer_id, url_id and a timestamp (YYYY-MM-DD hh:mm:ss)
+POST http://127.0.0.1:8080/api/accesslog
+Content-Type: application/json
+
+{
+  "customer": 1,
+  "url": 2,
+  "timestamp":"2021-01-01 04:00:00"
+}
+
+### Create access log by using customer_id, url_id and a timestamp (YYYY-MM-DD hh:mm:ss)
+POST http://127.0.0.1:8080/api/accesslog
+Content-Type: application/json
+
+{
+  "customer": 2,
+  "url": 1,
+  "timestamp":"2021-01-01 04:00:00"
+}
+
+### Create access log by using customer_id, url_id and a timestamp (YYYY-MM-DD hh:mm:ss)
+POST http://127.0.0.1:8080/api/accesslog
+Content-Type: application/json
+
+{
+  "customer": 2,
+  "url": 2,
+  "timestamp":"2021-01-01 04:00:00"
+}
+
+### Get Access Logs count by link type
+POST http://127.0.0.1:8080/api/accesslog/type
+Content-Type: application/json
+
+{
+  "link_type":"category",
+  "count": true
+}
+
+### Get Access Logs by link type (not counted, but all hits from that respective type from all customers)
+POST http://127.0.0.1:8080/api/accesslog/type
+Content-Type: application/json
+
+{
+  "link_type":"category",
+  "count": false
+}
+
+### Get Access Logs by link id in the specified date-time interval counted
+POST http://127.0.0.1:8080/api/accesslog/id
+Content-Type: application/json
+
+{
+  "start_time":"2021-01-01 00:00:00",
+  "end_time":"2021-01-01 05:00:00",
+  "link_id": 19,
+  "count": true
+}
+
+### Get Access Logs by link id in the specified date-time interval (not counted, but all hits from that respective type from all customers)
+POST http://127.0.0.1:8080/api/accesslog/id
+Content-Type: application/json
+
+{
+  "start_time":"2021-01-01 00:00:00",
+  "end_time":"2021-01-01 05:00:00",
+  "link_id": 19,
+  "count": false
+}
+
